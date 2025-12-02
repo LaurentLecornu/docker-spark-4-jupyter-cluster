@@ -1,6 +1,7 @@
 services:
   spark-master:
     build: .
+    image: spark-master
     container_name: spark-master
     networks:
       - network1
@@ -11,7 +12,7 @@ services:
       - "7001:7000"
       - "8888:8888"
     volumes:
-       - ./apps:/opt/spark-apps
+       - ../..:/opt/spark-apps
        - ./data:/opt/spark-data
        - ./spark-logs:/tmp/spark-events
     environment:
@@ -19,10 +20,11 @@ services:
       - SPARK_MASTER_CORES=2
       - SPARK_WORKLOAD=master
     entrypoint: /bin/bash
-    command: -c "/opt/spark/sbin/start-master.sh; tail -f /dev/null"
+    command: -c "/opt/spark/sbin/start-master.sh; /opt/spark-apps/jupyter_start.sh; tail -f /dev/null"
 
   spark-worker-a:
     build: .
+    image: spark-worker-a
     container_name: spark-worker-a
     networks:
       - network1
@@ -40,12 +42,13 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-a
     volumes:
-       - ./apps:/opt/spark-apps
+       - ../..:/opt/spark-apps
        - ./data:/opt/spark-data
        - ./spark-logs:/tmp/spark-events
 
   spark-worker-b:
     build: .
+    image: spark-worker-b
     container_name: spark-worker-b
     networks:
       - network1
@@ -64,12 +67,13 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-b
     volumes:
-        - ./apps:/opt/spark-apps
+        - ../..:/opt/spark-apps
         - ./data:/opt/spark-data
         - ./spark-logs:/tmp/spark-events
 
   spark-worker-c:
     build: .
+    image: spark-worker-c
     container_name: spark-worker-c
     networks:
       - network1
@@ -88,12 +92,13 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-c
     volumes:
-        - ./apps:/opt/spark-apps
+        - ../..:/opt/spark-apps
         - ./data:/opt/spark-data
         - ./spark-logs:/tmp/spark-events
 
   spark-history-server:
     build: .
+    image: spark-history
     container_name: spark-history
     depends_on:
       - spark-master
@@ -108,4 +113,4 @@ services:
 networks:
   network1:
     name: mynetwork
-    external: true
+    driver: bridge

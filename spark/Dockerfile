@@ -1,13 +1,16 @@
 FROM spark:4.0.1-java21-python3 AS builder
 
 USER root
-
+RUN apt-get update;
+RUN pip install --upgrade pip  --no-cache-dir
 RUN pip install pandas --no-cache-dir
 RUN pip install pyspark==4.0.1 --no-cache-dir
-RUN pip install cassandra-driver  --no-cache-dir
-RUN pip install cassandra-driver[graph]  --no-cache-dir
 RUN pip install lz4==4.3.3   --no-cache-dir
 RUN pip install jupyterlab   --no-cache-dir
+RUN pip install jupyter   --no-cache-dir
+RUN pip install notebook   --no-cache-dir
+RUN pip install findspark   --no-cache-dir
+RUN pip install pyarrow   --no-cache-dir
 
 RUN pip install scales  --no-cache-dir
 
@@ -16,8 +19,8 @@ RUN apt-get update; apt install -y netcat
 
 # Fix the value of PYTHONHASHSEED
 # Note: this is needed when you use Python 3.3 or greater
-ENV SPARK_VERSION=3.5.7 \
-HADOOP_VERSION=3 \
+ENV SPARK_VERSION=4.0.1 \
+HADOOP_VERSION=4 \
 SPARK_HOME=/opt/spark \
 PYTHONHASHSEED=1
 
