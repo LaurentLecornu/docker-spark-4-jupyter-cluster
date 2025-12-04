@@ -2,17 +2,14 @@
 
 # General
 
-A simple spark standalone cluster for your testing environment purposses. A *docker-compose up* away from you solution for your spark development environment.
+A quick and easy setup for running Jupyter notebooks with a spark (4.0.1)) cluster in a Dockerized environment, managed using [*docker-compose*](https://docs.docker.com/compose/).
 
-The Docker compose will create a cluster spark composed by the following containers:
+## Features
 
-container|Exposed ports
----|---
-spark-master|4040:4040 7001:7000 7077:7077 9080:8080 8888:8888
-spark-worker-a|7002:7000 9082:8080
-spark-worker-b|7003:7000 9083:8080
-spark-worker-c|7004:7000 9084:8080
-spark-history|18080:18080
+- GitHub Template repository for easy reuse.
+- Dockerized Jupyter environment for consistent, reproducible notebook runs.
+- Simplified sharing of notebooks using the `work` directory.
+- Compatibility with GitHub Code Spaces for seamless remote development.
 
 # Installation
 
@@ -31,7 +28,7 @@ For your volumes, youi need to define your own directory paths in modifying dock
 
 
 ```sh
-$ ./start_spark.sh
+$ ./start-cluster- spark.sh
 ```
 TP_spark.sh is defined as follow:
 
@@ -41,16 +38,28 @@ docker-compose up -d
 ```
 
 
+The Docker compose will create a cluster spark composed by the following containers:
+
+container|Exposed ports
+---|---
+spark-master|4040:4040 7001:7000 7077:7077 9080:8080 8888:8888
+spark-worker-a|7002:7000 9082:8080
+spark-worker-b|7003:7000 9083:8080
+spark-worker-c|7004:7000 9084:8080
+spark-history|18080:18080
+
+
+
 ## Validate your cluster
 
-After starting spark (read the logs of container master of cluster spark), a server jupyter have been launched.
+After starting spark (read the logs of container master of cluster spark), a server jupyter have been launched.  You need the value of the token.
 Just copy and start the link begin with : 
 
 http://127.0.0.1:8888/lab?token=y
 
 # Resource Allocation 
 
-This cluster is shipped with three workers and one spark master, each of these has a particular set of resource allocation(basically RAM & cpu cores allocation).
+This cluster is shipped with one master, three workers and one spark history. Each of these has a particular set of resource allocation(basically RAM & cpu cores allocation).
 
 * The default CPU cores allocation for each spark worker is 3 core.
 
