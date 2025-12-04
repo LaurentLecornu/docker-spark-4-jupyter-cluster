@@ -12,7 +12,7 @@ services:
       - "7001:7000"
       - "8888:8888"
     volumes:
-       - ../..:/opt/spark-apps
+       - ./apps:/opt/spark-apps
        - ./data:/opt/spark-data
        - ./spark-logs:/tmp/spark-events
     environment:
@@ -42,7 +42,7 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-a
     volumes:
-       - ../..:/opt/spark-apps
+       - ./apps:/opt/spark-apps
        - ./data:/opt/spark-data
        - ./spark-logs:/tmp/spark-events
 
@@ -67,7 +67,7 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-b
     volumes:
-        - ../..:/opt/spark-apps
+        - ./apps:/opt/spark-apps
         - ./data:/opt/spark-data
         - ./spark-logs:/tmp/spark-events
 
@@ -92,7 +92,7 @@ services:
       - SPARK_WORKLOAD=worker
       - SPARK_LOCAL_IP=spark-worker-c
     volumes:
-        - ../..:/opt/spark-apps
+        - ./apps:/opt/spark-apps
         - ./data:/opt/spark-data
         - ./spark-logs:/tmp/spark-events
 
